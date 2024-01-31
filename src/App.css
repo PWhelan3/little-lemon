@@ -3,11 +3,12 @@
   padding-left: 200px;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
-  background-color:rgb(60, 100, 60);
+
 }
 
 .header {
   display: flex;
+  font-size: 5rem;
 }
 
 .main {
@@ -25,7 +26,6 @@
 .navbar ul li a{
   color: black;
   text-decoration: none;
-  
 }
 
 p {
