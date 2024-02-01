@@ -1,6 +1,5 @@
 * {
   margin: 0;
-  padding-left: 200px;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
 
@@ -10,6 +9,7 @@
   display: flex;
   font-size: 5rem;
   background-color: rgb(36, 69, 36);
+  width: 50vw;
 }
 
 .main {
@@ -24,12 +24,18 @@
 
 .navbar {
   display: flex;
+  justify-content: end;
+  padding: 20px;
   background-color: rgb(172, 228, 172);
+  width: 50vw;
 }
 
-.navbar ul li a{
+.navbar a {
+  font-size: 1.1rem;
+  font-weight: bold;
   color: black;
   text-decoration: none;
+  margin-right: 10px; /* Adjust this value as needed */
 }
 
 p {
@@ -41,3 +47,34 @@ h1 {
   padding: 10px;
   font-size: 3rem;
 }
+
+.specials {
+  background-color: rgb(71, 107, 71);
+  height: 50vh;
+}
+
+.reviews {
+  background-color: rgb(41, 128, 41);
+  height: 50vh;
+}
+
+.hero {
+  background-color: rgb(129, 158, 129);
+  height: 50vh;
+}
+
+.chicago {
+  background-color: rgb(14, 88, 14);
+  height: 50vh;
+}
+
+.homepage {
+  background-color: rgb(127, 160, 127);
+  height: 50vh;
+}
+
+.bookingpage {
+  background-color: rgb(79, 114, 79);
+  height: 50vh;
+}
+
