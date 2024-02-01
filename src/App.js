@@ -1,25 +1,36 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/Header.js";
-import Nav from "./components/Nav.js";
-import Main from "./components/Main.js";
-import Footer from "./components/Footer.js";
-import './App.css';
 import React from 'react';
-import HomePage from "./pages/HomePage";
-import BookingPage from "./pages/BookingPage";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Nav from './components/Nav';
+import Main from './components/Main';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import BookingPage from './pages/BookingPage';
+import ConfirmedBooking from './components/ConfirmedBooking';
 
 function App() {
   return (
-    <>
-    <Header className="header"/>
-    <Nav className="navbar"/>
-    <Routes>
-      <Route index path="/" element={<HomePage />} />
-      <Route path="booking" element={<BookingPage />} />
-    </Routes>
-    <Main className="main"/>
-    <Footer className="footer"/>
-    </>
+    <Router>
+      <>
+        <Header className="header" />
+        <Nav className="navbar" />
+
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="booking"
+            element={
+              <Main>
+                <BookingPage />
+              </Main>
+            }
+          />
+          <Route path="booking/confirmed" element={<ConfirmedBooking />} /> {/* New route for confirmation page */}
+        </Routes>
+
+        <Footer className="footer" />
+      </>
+    </Router>
   );
 }
 
