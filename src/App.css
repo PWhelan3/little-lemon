@@ -9,18 +9,22 @@
 .header {
   display: flex;
   font-size: 5rem;
+  background-color: rgb(36, 69, 36);
 }
 
 .main {
   display: flex;
+  background-color: rgb(104, 134, 104);
 }
 
 .footer {
   display: flex;
+  background-color: rgb(31, 148, 31);
 }
 
 .navbar {
   display: flex;
+  background-color: rgb(172, 228, 172);
 }
 
 .navbar ul li a{

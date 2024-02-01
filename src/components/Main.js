@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BookingForm from './BookingForm';
+import { submitAPI } from './APIPaths';
 
 const timesReducer = (state, action) => {
   switch (action.type) {
@@ -24,9 +25,8 @@ const Main = () => {
     try {
 
       const isBookingSuccessful = await submitAPI(formData);
-      
       if (isBookingSuccessful) {
-        navigate('/confirmed'); 
+        navigate('/confirmed');
       } else {
 
       }
@@ -37,7 +37,7 @@ const Main = () => {
   };
 
   return (
-    <div>
+    <div className="main">
       <h1>Little Lemon Reserve-a-Table</h1>
       <BookingForm availableTimes={availableTimes} dispatch={dispatch} submitForm={submitForm} />
     </div>

@@ -33,8 +33,8 @@ const BookingForm = ({ availableTimes, dispatch, submitForm }) => {
   };
 
   useEffect(() => {
-    dispatch({ type: 'UPDATE_TIMES', date: selectedDate });
-  }, [selectedDate, dispatch]);
+    dispatch({ type: 'UPDATE_TIMES', times: availableTimes });
+  }, [availableTimes, dispatch]);
 
   const isFormValid = () => {
     return selectedDate && selectedTime && numberOfGuests >= 1 && selectedOccasion;
