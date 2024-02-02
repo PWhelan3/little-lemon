@@ -7,13 +7,11 @@ import ConfirmedBooking from './components/ConfirmedBooking';
 function App() {
   return (
     <Router>
-      <>
-        <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="booking" element={<BookingPage />} />
-          <Route path="confirmed" element={<ConfirmedBooking />} />
-        </Routes>
-      </>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/booking" element={<BookingPage />} />
+        <Route path="/confirmed" element={<ConfirmedBooking />} />
+      </Routes>
     </Router>
   );
 }

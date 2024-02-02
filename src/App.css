@@ -7,35 +7,49 @@
 
 .header {
   display: flex;
+  justify-content: center;
   font-size: 5rem;
-  background-color: rgb(36, 69, 36);
-  width: 50vw;
+  background-color: rgb(73, 94, 87);  height: 20vh;
+}
+
+.header {
+
+}
+
+.logo {
+  height: 15vh;
+  position: absolute;
+  left: 3vw;
+  top: 3vh;;
 }
 
 .main {
   display: flex;
-  background-color: rgb(104, 134, 104);
-}
+  background-color: rgb(73, 94, 87);}
 
 .footer {
   display: flex;
-  background-color: rgb(31, 148, 31);
-}
+  background-color: rgb(73, 94, 87);}
 
 .navbar {
-  display: flex;
-  justify-content: end;
   padding: 20px;
-  background-color: rgb(172, 228, 172);
-  width: 50vw;
+  position: absolute;
+  top: 7vh;
+  right: 5vw;
 }
 
 .navbar a {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  color: black;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   margin-right: 10px; /* Adjust this value as needed */
+  padding: 20px;
+  transition: ease-in 0.3s;
+}
+
+.header .navbar a:hover {
+  transform: scale(1.2);
 }
 
 p {
@@ -49,32 +63,48 @@ h1 {
 }
 
 .specials {
-  background-color: rgb(71, 107, 71);
+  background-color: rgb(73, 94, 87);
   height: 50vh;
 }
 
 .reviews {
-  background-color: rgb(41, 128, 41);
+  background-color: rgb(73, 94, 87);
   height: 50vh;
 }
 
 .hero {
-  background-color: rgb(129, 158, 129);
-  height: 50vh;
+  display: flex;
+  background-color: rgb(73, 94, 87)
+}
+
+.heroleft {
+  width: 20vw;
+  position: relative;
+  top: 5vh;
+  left: 25vh;
+}
+
+.heropic {
+  width: 40vw;
+  height: 40vw;
+  object-fit: cover;
+  position: relative;
+  right: -30vw;
 }
 
 .chicago {
-  background-color: rgb(14, 88, 14);
-  height: 50vh;
+  background-color: rgb(73, 94, 87);  height: 50vh;
 }
 
 .homepage {
-  background-color: rgb(127, 160, 127);
+  background-color: rgb(73, 94, 87);
   height: 50vh;
 }
 
 .bookingpage {
-  background-color: rgb(79, 114, 79);
-  height: 50vh;
+  background-color: rgb(73, 94, 87);
+  color: rgb(116, 145, 116);
 }
+
+
 

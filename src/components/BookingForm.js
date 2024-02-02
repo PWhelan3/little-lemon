@@ -1,86 +1,199 @@
-import React, { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from "react";
+ import { useNavigate } from "react-router-dom";
+ import "../App.css";
 
-const BookingForm = ({ availableTimes, dispatch, submitForm }) => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [numberOfGuests, setNumberOfGuests] = useState(1);
-  const [selectedOccasion, setSelectedOccasion] = useState('');
+ const BookingForm = ({
+   bookingData,
+   setBookingData,
+   availableTimes,
+   setAvailableTimes,
+   submitForm,
+ }) => {
+   const [error, setError] = useState({
+     date: null,
+     time: null,
+     guests: null,
+     occasion: null,
+   });
+   const [isLoading, setIsLoading] = useState(false);
 
-  const handleDateChange = (e) => {
-    setSelectedDate(e.target.value);
-  };
+   useEffect(() => {
+     validateForm();
+     console.log(bookingData);
+   }, [bookingData, error]);
 
-  const handleTimeChange = (e) => {
-    setSelectedTime(e.target.value);
-  };
+   const validateForm = () => {
+     const { date, guests, occasion, time } = bookingData;
+     const updatedError = { ...error };
 
-  const handleGuestsChange = (e) => {
-    setNumberOfGuests(parseInt(e.target.value, 10));
-  };
+     if (date === "") {
+       updatedError.date = "Must select a date";
+     } else if (!isValidDate(date)) {
+       updatedError.date = `Sorry! Reservations not available for this date!`;
+     } else {
+       updatedError.date = null;
+     }
 
-  const handleOccasionChange = (e) => {
-    setSelectedOccasion(e.target.value);
-  };
+     if (guests < 1) {
+       updatedError.guests = "Has to be at least 1 guest";
+     } else if (guests > 10) {
+       updatedError.guests = "Cannot seat more then 10";
+     } else {
+       updatedError.guests = null;
+     }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    submitForm({
-      date: selectedDate,
-      time: selectedTime,
-      guests: numberOfGuests,
-      occasion: selectedOccasion,
-    });
-  };
+     if (time === null) {
+       updatedError.time = "Must select a time";
+     } else {
+       updatedError.time = null;
+     }
 
-  useEffect(() => {
-    dispatch({ type: 'UPDATE_TIMES', times: availableTimes });
-  }, [availableTimes, dispatch]);
+     if (occasion === null) {
+       updatedError.occasion = "Must select an occasion";
+     } else {
+       updatedError.occasion = null;
+     }
 
-  const isFormValid = () => {
-    return selectedDate && selectedTime && numberOfGuests >= 1 && selectedOccasion;
-  };
+     setError(updatedError);
+   };
 
-  return (
-    <form style={{ display: 'grid', maxWidth: '200px', gap: '20px' }} onSubmit={handleSubmit}>
-      <label htmlFor="res-date">Choose date</label>
-      <input type="date" id="res-date" value={selectedDate} onChange={handleDateChange} required />
+   const isValidDate = (dateString) => {
+     const yyyymmdd = dateString.split("-");
+     const dateObj = new Date(
+       parseInt(yyyymmdd[0]),
+       parseInt(yyyymmdd[1]) - 1,
+       parseInt(yyyymmdd[2])
+     );
 
-      <label htmlFor="res-time">Choose time</label>
-      <select id="res-time" value={selectedTime} onChange={handleTimeChange} required>
-        {availableTimes.map((time) => (
-          <option key={time} value={time}>
-            {time}
-          </option>
-        ))}
-      </select>
+     if (dateObj <= new Date()) return false;
+     return true;
+   };
+   const handleBlur = () => {
+     validateForm();
+   };
+   const handleChange = (e) => {
+     const { id, value } = e.target;
+     setBookingData((prevState) => ({ ...prevState, [id]: value }));
+   };
 
-      <label htmlFor="guests">Number of guests</label>
-      <input
-        type="number"
-        placeholder="1"
-        min="1"
-        max="10"
-        id="guests"
-        value={numberOfGuests}
-        onChange={handleGuestsChange}
-        required
-      />
+   const navigate = useNavigate();
 
-      <label htmlFor="occasion">Occasion</label>
-      <select id="occasion" value={selectedOccasion} onChange={handleOccasionChange} required>
-        <option value="">Select an occasion</option>
-        <option value="Birthday">Birthday</option>
-        <option value="Anniversary">Anniversary</option>
-      </select>
+   const handleSubmit = async (e) => {
+     e.preventDefault();
 
-      <input
-        type="submit"
-        value="Make Your reservation"
-        disabled={!isFormValid()}
-        aria-label="Make Your reservation"
-      />
-    </form>
-  );
-};
+     if (submitForm() === true) {
+       console.log("success");
+       navigate("/confirmation");
+     } else {
+       alert("Error");
+     }
+   };
 
-export default BookingForm;
+   const [items, setItems] = useState({
+     date: "",
+     time: "",
+     guests: "",
+     occasion: "",
+   });
+
+   const AvailableTimes = () => {
+     const items = JSON.parse(localStorage.getItem("bookings"));
+
+     if (items.date !== bookingData.date) {
+       return availableTimes.times.map((time) => {
+         return <option key={time}>{time}</option>;
+       });
+     } else {
+       const bookedTimes = items
+         .filter((item) => item.date === bookingData.date)
+         .map((item) => item.time);
+       return availableTimes.times
+         .filter((time) => !bookedTimes.includes(time))
+         .map((time) => {
+           return <option key={time}>{time}</option>;
+         });
+     }
+   };
+
+   return (
+     <>
+       <h1>Book Table Now</h1>
+       <div className="booking-wrapper">
+         <form
+           data-testid="booking-form"
+           className="booking"
+           onSubmit={handleSubmit}
+         >
+           <label htmlFor="res-date">Choose date</label>
+           <input
+             data-testid="date"
+             id="date"
+             required
+             value={bookingData.date}
+             onBlur={handleBlur}
+             onChange={handleChange}
+             type="date"
+           />
+           <span className="error">{error.date}</span>
+           <label htmlFor="res-time">Choose time</label>
+           <div data-testid="res-time">
+             <select
+               data-testid="time"
+               id="time"
+               required
+               value={bookingData.time}
+               onBlur={handleBlur}
+               onChange={handleChange}
+             >
+               <option></option>
+               <AvailableTimes />
+             </select>
+           </div>
+           <span className="error">{error.time}</span>
+           <label htmlFor="guests">Guests</label>
+           <input
+             data-testid="guests"
+             required
+             type="number"
+             placeholder="1"
+             min="1"
+             max="10"
+             id="guests"
+             value={bookingData.guests}
+             onBlur={handleBlur}
+             onChange={handleChange}
+           />
+           <span className="error">{error.guests}</span>
+
+           <label htmlFor="occasion">Occasion</label>
+           <div data-testid="res-occasion">
+             <select
+               data-testid="occasion"
+               id="occasion"
+               required
+               value={bookingData.occasion}
+               onBlur={handleBlur}
+               onChange={handleChange}
+             >
+               <option></option>
+               <option>None</option>
+               <option>Birthday</option>
+               <option>Anniversary</option>
+             </select>
+           </div>
+           <span className="error">{error.occasion}</span>
+           <button
+             onclick={validateForm}
+             data-testid="submit"
+             id="submitButton"
+             type="submit"
+           >
+             "Make Your Reservation"
+           </button>
+         </form>
+       </div>
+     </>
+   );
+ };
+
+ export default BookingForm;
